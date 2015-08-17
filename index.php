@@ -1,10 +1,10 @@
 <?php
 /**
- * @package represent.cc
+ * @package Represent
  * @version 1.0
  */
 /*
-Plugin Name: represent.cc
+Plugin Name: Represent
 Plugin URI: http://represent.cc/
 Description: Plugin developed for http://represent.cc/
 Author: Hariprasad Vijayan
@@ -16,9 +16,9 @@ Author URI: http://phpsmashcode.com/
 
 add_action( 'admin_menu', 'register__represent_cc_menu' );
 function register__represent_cc_menu(){
-	add_menu_page( 'represent.cc Settings', 'represent.cc', 'manage_options', 'represent_cc', '__represent_cc', plugins_url( 'represent.cc/images/replogo.png' ), 6 ); 
+	add_menu_page( 'Represent API Settings', 'represent', 'manage_options', 'represent_cc', '__represent_cc', plugins_url( 'Represent/images/replogo.png' ), 6 ); 
 }
-/* Callback function for displaying represent.cc settings page. */
+/* Callback function for displaying Represent settings page. */
 function __represent_cc(){
 	if($_POST)
 	{
@@ -60,21 +60,22 @@ function __represent_cc(){
 ?>
 
 <div class="wrap" id="rcc-page">
-  <h2> represent.cc Settings</h2>
+  <h2> Represent API Settings</h2>
   <form id="frm_rcc_settings" action="" method="post">
 	<?php wp_nonce_field( 'r.cc', '_wpnonce' ); ?>
     <h3>API Information</h3>
+    <span class="description">You can find your API information on the Settings tab on <a href="https://represent.cc/profile">https://represent.cc/profile</a>.</span>
     <table class="form-table">
       <tbody>
         <tr>
           <th><label for="api_key">API Key</label></th>
           <td><input type="text" name="rcc_key" id="rcc_key" value="<?php echo $key; ?>" class="regular-text">
-            <span class="description">represent.cc API Key.</span></td>
+            <span class="description">Represent API Key.</span></td>
         </tr>
         <tr>
           <th><label for="api_secret">API Secret</label></th>
           <td><input type="password" name="rcc_secret" id="rcc_secret" value="<?php echo $secret; ?>" class="regular-text">
-            <span class="description">represent.cc API secret.</span></td>
+            <span class="description">Represent API secret.</span></td>
         </tr>
       </tbody>
     </table>
@@ -270,7 +271,7 @@ function r_cc_scripts_api()
 		($rcc_settings['api'])?$API=$rcc_settings['api']:$API='';
 		if(!empty($API))
 		{	
-			// Register represent.cc api
+			// Register Represent api
 			echo '<script type="text/javascript" src="https://represent.cc/libs/sc.js?'.$API.'"></script>';
 		}
 	}

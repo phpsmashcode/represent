@@ -13,9 +13,8 @@
     tinymce.PluginManager.add('gavickpro_tc_button', function( editor, url ) {
         editor.addButton( 'gavickpro_tc_button', {
             title: 'represent.cc Shortcode Gen.',
-			text: 'r.cc',
-            icon: false,
-            //icon: 'icon dashicons-share-alt2', //dashicons-share-alt2 gavickpro-own-icon
+			icon: true,
+            icon: 'icon  gavickpro-own-icon', //dashicons-share-alt2 gavickpro-own-icon
             onclick: function() {
                 editor.windowManager.open( {
                     title: 'represent.cc Shortcode Gen.',

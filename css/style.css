@@ -1,9 +1,9 @@
-/* Represent.cc admin styles. */
+/* Represent admin styles. */
 .toplevel_page_represent_cc .wp-menu-image img{
     width: 20px;
     height: 20px;
 }
-/*i.gavickpro-own-icon {
+i.gavickpro-own-icon {
     background-image: url('../images/replogo.png');
-    background-color: #223754;
-}*/
+    background-color: transparent;
+}
