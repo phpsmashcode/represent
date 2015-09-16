@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Represent
- * @version 1.0
+ * @version 1.1
  */
 /*
 Plugin Name: Represent
 Plugin URI: http://represent.cc/
 Description: Plugin developed for http://represent.cc/
 Author: Hariprasad Vijayan
-Version: 1.0
+Version: 1.1
 Author URI: http://phpsmashcode.com/
 */
 
@@ -261,7 +261,12 @@ function __callback__rcc_shortcode_gen() {
 add_shortcode( 'represent_cc', '__represent_cc_sc' );
 // Shortcode call back function
 function __represent_cc_sc( $atts ){
-	return '<span class="represent_question" data-question="false" data-flow="user">'.$atts["question"].'</span>';
+	$html = '<span class="represent_question" data-question="false" data-flow="user">'.$atts["question"].'</span>';
+	$html .= "<style type=\"text/css\">
+		.represent_question { border-bottom: 1px dashed red; /*background: rgba(255,0,0,0.1);*/ padding: 2px; cursor: help;}
+		.represent_question:before { display: inline-block; content: ' '; background-image: url('https://represent.cc/img/cube_inline_1515.png'); background-size: 14px 14px; height: 16px; width: 16px; background-position: 0px 2px; background-repeat: no-repeat; }
+		</style>";
+	return $html;
 }
 function r_cc_scripts_api()
 {
