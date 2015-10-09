@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Represent
- * @version 1.1
+ * @version 1.2
  */
 /*
 Plugin Name: Represent
@@ -16,7 +16,7 @@ Author URI: http://phpsmashcode.com/
 
 add_action( 'admin_menu', 'register__represent_cc_menu' );
 function register__represent_cc_menu(){
-	add_menu_page( 'Represent API Settings', 'represent', 'manage_options', 'represent_cc', '__represent_cc', plugins_url( 'Represent/images/replogo.png' ), 6 ); 
+	add_menu_page( 'Represent API Settings', 'represent', 'manage_options', 'represent_cc', '__represent_cc', plugins_url( 'represent/images/replogo.png' ), 6 ); 
 }
 /* Callback function for displaying Represent settings page. */
 function __represent_cc(){
@@ -261,11 +261,48 @@ function __callback__rcc_shortcode_gen() {
 add_shortcode( 'represent_cc', '__represent_cc_sc' );
 // Shortcode call back function
 function __represent_cc_sc( $atts ){
-	$html = '<span class="represent_question" data-question="false" data-flow="user">'.$atts["question"].'</span>';
+	switch ($atts["next"]) {
+		case "nothing":
+			$data_flow = '';
+			break;
+		case "results":
+			$data_flow = '';
+			break;
+		case "random_question":
+			$data_flow = 'random';
+			break;
+		case "one_of_my_question":
+			$data_flow = 'single';
+			break;
+		case "topic_question":
+			$data_flow = 'group';
+			break;
+		default:
+			$data_flow = 'single';
+	}
+	if($atts["type"] == 'link')
+	{
+		if($atts["text"])
+		{
+			$display_text = $atts["text"];
+			$question_text = $atts["question"];
+		}
+		else
+		{
+			$display_text = $atts["question"];
+			$question_text = 'false';
+		}
+	$html = '<span class="represent_question" data-question="'.$question_text.'" data-flow="'.$data_flow.'">'.$display_text.'</span>';
+	
 	$html .= "<style type=\"text/css\">
 		.represent_question { border-bottom: 1px dashed red; /*background: rgba(255,0,0,0.1);*/ padding: 2px; cursor: help;}
 		.represent_question:before { display: inline-block; content: ' '; background-image: url('https://represent.cc/img/cube_inline_1515.png'); background-size: 14px 14px; height: 16px; width: 16px; background-position: 0px 2px; background-repeat: no-repeat; }
 		</style>";
+	}
+	elseif($atts["type"] == 'box')
+	{
+		$html = '<iframe src="https://represent.cc/'.$atts["id"].'/'.$data_flow.'" allowfullscreen style="border:0; width:100%; height: 600px;"></iframe>';
+	}
 	return $html;
 }
 function r_cc_scripts_api()
@@ -283,3 +320,73 @@ function r_cc_scripts_api()
 	
 }
 add_action( 'wp_footer', 'r_cc_scripts_api' );
+function r_cc_ui_scripts() {
+	/*wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-autocomplete' );
+	wp_register_style( 'jquery-ui-styles','http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' );
+	wp_enqueue_style( 'jquery-ui-styles' );*/
+	//if ( 'edit.php' != $hook ) {
+    //    return;
+    //}
+    wp_enqueue_script( 'represent-script', plugin_dir_url( __FILE__ ) . 'js/represent.js', array('jquery'), '1.0.0' );
+}
+add_action('admin_enqueue_scripts', 'r_cc_ui_scripts');
+add_action( 'wp_ajax_rcc_searchapi', '__callback__rcc_searchapi' );
+function __callback__rcc_searchapi() {
+    if($_POST)
+	{
+		$rcc_question = esc_attr($_POST['txt__rcc_question']);
+		$rcc_settings = get_option( 'rcc_settings');
+		if($rcc_settings && !empty($rcc_question)) {
+			$rcc_settings = unserialize($rcc_settings); 
+			($rcc_settings['api'])?$API=$rcc_settings['api']:$API='';
+			if(!empty($API))
+			{
+				$get_data = array (
+					'access_token' => $API,
+					'count' => '10',
+					'question' => $rcc_question,
+				);
+				/*$post_data = array (
+					'question' => $rcc_question,
+				);*/
+				$url = 'https://represent.cc/question/questions';	
+				$params = '';
+				
+				foreach($get_data as $key=>$value)
+							$params .= $key.'='.$value.'&';
+					 
+				$params = trim($params, '&');
+				
+				/*$postData = '';
+				//create name value pairs seperated by &
+				foreach($post_data as $k => $v) 
+				{ 
+					$postData .= $k . '='.$v.'&'; 
+				}
+				rtrim($postData, '&');*/
+				
+				$ch = curl_init();
+			
+				curl_setopt($ch, CURLOPT_URL, $url.'?'.$params ); //Url together with parameters
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Return data instead printing directly in Browser
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT , 7); //Timeout after 7 seconds
+				curl_setopt($ch, CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_POST, 0);
+				//curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+				
+				$result = curl_exec($ch);
+				
+				curl_close($ch);
+			
+				if(curl_errno($ch))  //catch if curl error exists and show it
+				  echo 'Curl error: ' . curl_error($ch);
+				else
+				  echo $result;
+			}
+		}
+		
+	}
+	die();
+}
