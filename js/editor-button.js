@@ -104,11 +104,11 @@
 							{text: 'Results', value: 'results'},
 							{text: 'Random question', value: 'random_question'},
 							{text: 'One of my question', value: 'one_of_my_question'},
-							{text: 'Topic question', value: 'topic_question'},
+							/*{text: 'Topic question', value: 'topic_question'},*/
 						],
 						tooltip: 'Select what shows next?'
 					},
-					{
+					/*{
                         type: 'textbox',
                         id: 'txt__rcc_topic',
 						name: 'txt__rcc_topic',
@@ -121,7 +121,7 @@
 						label  : ' ',
 						html   : '<small style="font-size:10px; font-style:italic;">They\'ll be asked a series of questions from this topic</small>',
 						style: 'height: 15px',
-                	},
+                	},*/
                     {
                         type: 'label',
                         id: 'lbl__rcc_status',
@@ -153,16 +153,15 @@
 								function(response){
 									if(response)
 									{
-										response = JSON.parse(response);
-										console.log(response);
-										/*if(response.success == true)
+										response = JSON.parse(response.slice(0,-1));
+										if(response.success == true)
 										{
-											//var question_id = response.obj.question.permalink;
+											var question_id = response.obj.permalink;
 										}
 										else
 										{
 											var question_id = '';
-										}*/
+										}
 									}
 									else
 									{
@@ -172,7 +171,7 @@
 										shortcode = shortcode + ' type="'+ var_ds + '"';
 										if(var_ds == 'box')
 										{
-											//shortcode = shortcode + ' id="'+ question_id + '"';
+											shortcode = shortcode + ' id="'+ question_id + '"';
 										}
 										if(var_link_text)
 										{

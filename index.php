@@ -386,7 +386,6 @@ function __callback__rcc_searchapi() {
 				  echo $result;
 			}
 		}
-		
 	}
 	die();
 }
