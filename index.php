@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Represent
- * @version 1.2
+ * @version 1.5
  */
 /*
 Plugin Name: Represent
@@ -301,7 +301,8 @@ function __represent_cc_sc( $atts ){
 	}
 	elseif($atts["type"] == 'box')
 	{
-		$html = '<iframe src="https://represent.cc/'.$atts["id"].'/'.$data_flow.'" allowfullscreen style="border:0; width:100%; height: 600px;"></iframe>';
+		//$html = '<iframe src="https://represent.cc/'.$atts["id"].'/'.$data_flow.'" allowfullscreen style="border:0; width:100%; height: 600px;"></iframe>';
+		$html = '<iframe src="https://represent.cc/'.$atts["id"].'" allowfullscreen style="border:0; width:100%; height: 600px;"></iframe>';
 	}
 	return $html;
 }
