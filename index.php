@@ -8,7 +8,7 @@ Plugin Name: Represent
 Plugin URI: http://represent.cc/
 Description: Plugin developed for http://represent.cc/
 Author: Hariprasad Vijayan
-Version: 1.1
+Version: 1.5
 Author URI: http://phpsmashcode.com/
 */
 
