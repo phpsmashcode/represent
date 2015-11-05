@@ -204,7 +204,7 @@
 								function(response){
 									if(response)
 									{
-										response = JSON.parse(response.slice(0,-1));
+										response = JSON.parse(response);
 										if(response.success == true)
 										{
 											var question_id = response.obj.permalink;

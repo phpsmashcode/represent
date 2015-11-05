@@ -199,10 +199,19 @@ function represent_cc_create_question($get_data, $post_data)
     
 	curl_close($ch);
 
-	if(curl_errno($ch))  //catch if curl error exists and show it
+	
+	if($result)
+	{
+		echo $result;
+	}
+	else
+	{
+		echo '';
+	}
+				/*if(curl_errno($ch))  //catch if curl error exists and show it
 	  echo 'Curl error: ' . curl_error($ch);
 	else
-	  echo $result;
+	  echo $result;*/
 }
 function gavickpro_tc_css() {
     wp_enqueue_style('gavickpro-tc', plugins_url('/css/style.css', __FILE__));
@@ -256,6 +265,7 @@ function __callback__rcc_shortcode_gen() {
 			}
 		}
 	}
+	die();
 }
 // Creates short code represent_cc
 add_shortcode( 'represent_cc', '__represent_cc_sc' );
@@ -380,11 +390,19 @@ function __callback__rcc_searchapi() {
 				$result = curl_exec($ch);
 				
 				curl_close($ch);
-			
-				if(curl_errno($ch))  //catch if curl error exists and show it
+				if($result)
+				{
+					echo $result;
+				}
+				else
+				{
+					echo '';
+				}
+				/*if(curl_errno($ch))  //catch if curl error exists and show it
 				  echo 'Curl error: ' . curl_error($ch);
 				else
 				  echo $result;
+				  */
 			}
 		}
 	}
