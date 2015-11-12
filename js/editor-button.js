@@ -193,8 +193,37 @@
 							var var_ds = e.data.sel_rcc_ds;
 							var var_link_text = e.data.txt__rcc_link_text;
 							var var_whatnext = e.data.sel_rcc_whatnext;
-							var var_topic = e.data.txt__rcc_topic;					
-							jQuery.post(
+							var var_topic = e.data.txt__rcc_topic;
+							var question_id = jQuery('#txt__rcc_question').attr('data-id');
+							var question_title = jQuery('#txt__rcc_question').attr('data-title');
+							if(question_id && question_title == var_ques)
+							{
+								var shortcode = '[represent_cc question="'+ var_ques + '"';
+								shortcode = shortcode + ' type="'+ var_ds + '"';
+								if(var_ds == 'box')
+								{
+									shortcode = shortcode + ' id="'+ question_id + '"';
+								}
+								if(var_link_text)
+								{
+									shortcode = shortcode + ' text="'+ var_link_text + '"';
+								}
+								if(var_whatnext)
+								{
+									shortcode = shortcode + ' next="'+ var_whatnext + '"';
+								}
+								if(var_topic)
+								{
+									shortcode = shortcode + ' topic="'+ var_topic + '"';
+								}
+								shortcode = shortcode + ']';
+							
+								editor.insertContent(shortcode);
+								editor.windowManager.close();
+							}
+							else
+							{
+								jQuery.post(
 								ajaxurl, 
 								{
 									'action': 'rcc_shortcode_gen',
@@ -208,40 +237,33 @@
 										if(response.success == true)
 										{
 											var question_id = response.obj.permalink;
+											var shortcode = '[represent_cc question="'+ var_ques + '"';
+											shortcode = shortcode + ' type="'+ var_ds + '"';
+											if(var_ds == 'box')
+											{
+												shortcode = shortcode + ' id="'+ question_id + '"';
+											}
+											if(var_link_text)
+											{
+												shortcode = shortcode + ' text="'+ var_link_text + '"';
+											}
+											if(var_whatnext)
+											{
+												shortcode = shortcode + ' next="'+ var_whatnext + '"';
+											}
+											if(var_topic)
+											{
+												shortcode = shortcode + ' topic="'+ var_topic + '"';
+											}
+											shortcode = shortcode + ']';
+										
+											editor.insertContent(shortcode);
+											editor.windowManager.close();
 										}
-										else
-										{
-											var question_id = '';
 										}
 									}
-									if(question_id == '')
-									{
-										var question_id = jQuery('#txt__rcc_question').attr('title');
-									}
-										var shortcode = '[represent_cc question="'+ var_ques + '"';
-										shortcode = shortcode + ' type="'+ var_ds + '"';
-										if(var_ds == 'box')
-										{
-											shortcode = shortcode + ' id="'+ question_id + '"';
-										}
-										if(var_link_text)
-										{
-											shortcode = shortcode + ' text="'+ var_link_text + '"';
-										}
-										if(var_whatnext)
-										{
-											shortcode = shortcode + ' next="'+ var_whatnext + '"';
-										}
-										if(var_topic)
-										{
-											shortcode = shortcode + ' topic="'+ var_topic + '"';
-										}
-										shortcode = shortcode + ']';
-									
-									editor.insertContent(shortcode);
-									editor.windowManager.close();
-								}
-							);
+								);
+							}
 							return false;
 						}
                     },
