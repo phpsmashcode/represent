@@ -246,8 +246,8 @@ add_action( 'wp_ajax_rcc_shortcode_gen', '__callback__rcc_shortcode_gen' );
 function __callback__rcc_shortcode_gen() {
     if($_POST)
 	{
-		$rcc_question = esc_attr($_POST['txt__rcc_question']);
-		$rcc_description = esc_attr($_POST['txt__rcc_description']);
+		$rcc_question = $_POST['txt__rcc_question'];
+		$rcc_description = $_POST['txt__rcc_description'];
 		$rcc_settings = get_option( 'rcc_settings');
 		if($rcc_settings && !empty($rcc_question)) {
 			$rcc_settings = unserialize($rcc_settings); 
@@ -346,7 +346,7 @@ add_action( 'wp_ajax_rcc_searchapi', '__callback__rcc_searchapi' );
 function __callback__rcc_searchapi() {
     if($_POST)
 	{
-		$rcc_question = esc_attr($_POST['txt__rcc_question']);
+		$rcc_question = $_POST['txt__rcc_question'];
 		$rcc_settings = get_option( 'rcc_settings');
 		if($rcc_settings && !empty($rcc_question)) {
 			$rcc_settings = unserialize($rcc_settings); 
